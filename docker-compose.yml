@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: api_docker_quarkus
+    image: abned/docker-quarkus
+    networks:
+      - db-network
+    environment:
+      DB_HOST: postgres
+      DB_PASSWORD: $$Otwoodev2020@
+      DB_PORT: 5432
+      DB_USER: otwoodev
+    depends_on:
+      - pg
+    ports:
+      - "8080:8080"
+  pg:
+    image: postgres
+    container_name: db-postgres
+    environment:
+      - POSTGRES_PASSWORD=$$Otwoodev2020@
+      - POSTGRES_USER=otwoodev
+      - POSTGRES_DB=db_docker_quarkus
+    networks:
+      db-network:
+        aliases:
+          - postgres
+networks:
+  db-network:
+    external: true
+    
+     
+
